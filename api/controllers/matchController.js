@@ -115,7 +115,7 @@ export const sendLike = async (req, res) => {
             // Generate AI ice breaker
             let iceBreaker = null;
             try {
-                iceBreaker = await geminiAI.generateIceBreaker(sender, receiver, likedContent);
+                iceBreaker = await groqAI.generateIceBreaker(sender, receiver, likedContent);
             } catch (error) {
                 console.log("Error generating ice breaker:", error);
             }
