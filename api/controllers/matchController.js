@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import Like from "../models/Like.js";
 import { getConnectedUsers, getIO } from "../socket/socket.server.js";
 import { matchingAlgorithm } from "../utils/matchingAlgorithm.js";
-import { geminiAI } from "../utils/geminiAI.js";
+import { groqAI } from "../utils/groqAI.js";
 
 export const getDiscoverFeed = async (req, res) => {
     try {
