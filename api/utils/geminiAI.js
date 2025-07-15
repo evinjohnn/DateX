@@ -1,21 +1,26 @@
-// api/utils/geminiAI.js
-import { GoogleGenerativeAI } from '@google/generative-ai';
+// api/utils/groqAI.js
+import Groq from "groq-sdk";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY,
+});
 
-export class GeminiAIService {
+export class GroqAIService {
     constructor() {
-        this.model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+        this.model = "llama3-70b-8192";
     }
 
     async generateChatSuggestions(userProfile, matchProfile, conversationHistory = []) {
         try {
             const prompt = this.buildChatSuggestionsPrompt(userProfile, matchProfile, conversationHistory);
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const completion = await groq.chat.completions.create({
+                messages: [{ role: "user", content: prompt }],
+                model: this.model,
+                temperature: 0.7,
+                max_tokens: 500,
+            });
             
-            // Parse the response to extract suggestions
+            const text = completion.choices[0].message.content;
             return this.parseChatSuggestions(text);
         } catch (error) {
             console.error('Error generating chat suggestions:', error);
@@ -26,10 +31,14 @@ export class GeminiAIService {
     async generateConversationStarters(userProfile, matchProfile) {
         try {
             const prompt = this.buildConversationStartersPrompt(userProfile, matchProfile);
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const completion = await groq.chat.completions.create({
+                messages: [{ role: "user", content: prompt }],
+                model: this.model,
+                temperature: 0.8,
+                max_tokens: 400,
+            });
             
+            const text = completion.choices[0].message.content;
             return this.parseConversationStarters(text);
         } catch (error) {
             console.error('Error generating conversation starters:', error);
@@ -40,10 +49,14 @@ export class GeminiAIService {
     async analyzeMood(messages) {
         try {
             const prompt = this.buildMoodAnalysisPrompt(messages);
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const completion = await groq.chat.completions.create({
+                messages: [{ role: "user", content: prompt }],
+                model: this.model,
+                temperature: 0.3,
+                max_tokens: 300,
+            });
             
+            const text = completion.choices[0].message.content;
             return this.parseMoodAnalysis(text);
         } catch (error) {
             console.error('Error analyzing mood:', error);
@@ -58,10 +71,14 @@ export class GeminiAIService {
     async generateIceBreaker(userProfile, matchProfile, likedContent) {
         try {
             const prompt = this.buildIceBreakerPrompt(userProfile, matchProfile, likedContent);
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
+            const completion = await groq.chat.completions.create({
+                messages: [{ role: "user", content: prompt }],
+                model: this.model,
+                temperature: 0.7,
+                max_tokens: 200,
+            });
             
+            const text = completion.choices[0].message.content;
             return this.parseIceBreaker(text);
         } catch (error) {
             console.error('Error generating ice breaker:', error);
@@ -250,4 +267,4 @@ Return just the message text.`;
     }
 }
 
-export const geminiAI = new GeminiAIService();
+export const groqAI = new GroqAIService();
