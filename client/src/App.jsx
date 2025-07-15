@@ -15,6 +15,7 @@ import ConversationPage from "./pages/ConversationPage";
 import StandoutsPage from "./pages/StandoutsPage";
 import SettingsPage from "./pages/SettingsPage";
 import PremiumPage from "./pages/PremiumPage";
+import PromptsPage from "./pages/PromptsPage";
 
 // Store
 import { useAuthStore } from "./store/useAuthStore";
