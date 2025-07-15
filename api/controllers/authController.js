@@ -13,16 +13,23 @@ const signRefreshToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
-// Rate limiting for auth endpoints
+// Rate limiting for auth endpoints - More lenient for development
 export const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // limit each IP to 5 requests per windowMs
+    max: 20, // limit each IP to 20 requests per windowMs (increased from 5)
     message: {
         success: false,
         message: "Too many authentication attempts, please try again later."
     },
     standardHeaders: true,
     legacyHeaders: false,
+    skip: (req) => {
+        // Skip rate limiting for successful requests
+        return req.method === 'GET' || process.env.NODE_ENV === 'development';
+    },
+    onLimitReached: (req, res) => {
+        console.log(`Rate limit exceeded for IP: ${req.ip}`);
+    }
 });
 
 export const signup = async (req, res) => {
