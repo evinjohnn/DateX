@@ -26,9 +26,6 @@ export const authLimiter = rateLimit({
     skip: (req) => {
         // Skip rate limiting for successful requests
         return req.method === 'GET' || process.env.NODE_ENV === 'development';
-    },
-    onLimitReached: (req, res) => {
-        console.log(`Rate limit exceeded for IP: ${req.ip}`);
     }
 });
 
