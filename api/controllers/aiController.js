@@ -97,7 +97,7 @@ export const getConversationStarters = async (req, res) => {
         }
 
         // Generate conversation starters
-        const starters = await geminiAI.generateConversationStarters(
+        const starters = await groqAI.generateConversationStarters(
             currentUser,
             matchUser
         );
