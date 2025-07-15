@@ -1,5 +1,5 @@
 // api/controllers/aiController.js
-import { geminiAI } from "../utils/geminiAI.js";
+import { groqAI } from "../utils/groqAI.js";
 import User from "../models/User.js";
 import AIConversation from "../models/AIConversation.js";
 import Message from "../models/Message.js";
