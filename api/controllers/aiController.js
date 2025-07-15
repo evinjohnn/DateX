@@ -34,7 +34,7 @@ export const getChatSuggestions = async (req, res) => {
         }));
 
         // Generate suggestions
-        const suggestions = await geminiAI.generateChatSuggestions(
+        const suggestions = await groqAI.generateChatSuggestions(
             currentUser,
             matchUser,
             conversationHistory
