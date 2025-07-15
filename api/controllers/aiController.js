@@ -155,7 +155,7 @@ export const analyzeMood = async (req, res) => {
         }));
 
         // Analyze mood
-        const moodAnalysis = await geminiAI.analyzeMood(conversationHistory);
+        const moodAnalysis = await groqAI.analyzeMood(conversationHistory);
 
         // Update AI conversation with mood analysis
         await AIConversation.findOneAndUpdate(
