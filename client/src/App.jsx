@@ -107,6 +107,11 @@ function App() {
                         path='/premium' 
                         element={authUser ? <PremiumPage /> : <Navigate to="/auth" />} 
                     />
+                    
+                    <Route 
+                        path='/prompts' 
+                        element={authUser ? <PromptsPage /> : <Navigate to="/auth" />} 
+                    />
                 </Routes>
                 
                 <Toaster 
